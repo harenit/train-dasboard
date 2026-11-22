@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Train Traffic Control System</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="system-title">🚂 AI-Powered Train Traffic Control System</h1>
+                <div class="system-status">
+                    <span class="status-indicator online"></span>
+                    <span class="status-text">System Online</span>
+                    <span class="last-update">Last Update: <span id="lastUpdateTime">--:--:--</span></span>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-layout">
+            <!-- Sidebar Navigation -->
+            <nav class="sidebar">
+                <ul class="nav-menu">
+                    <li class="nav-item active" data-section="dashboard">
+                        <span class="nav-icon">📊</span>
+                        <span class="nav-text">Dashboard</span>
+                    </li>
+                    <li class="nav-item" data-section="schedule">
+                        <span class="nav-icon">🕐</span>
+                        <span class="nav-text">Schedule View</span>
+                    </li>
+                    <li class="nav-item" data-section="whatif">
+                        <span class="nav-icon">🔬</span>
+                        <span class="nav-text">What-If Analysis</span>
+                    </li>
+                    <li class="nav-item" data-section="kpis">
+                        <span class="nav-icon">📈</span>
+                        <span class="nav-text">KPIs</span>
+                    </li>
+                    <li class="nav-item" data-section="control">
+                        <span class="nav-icon">🎛️</span>
+                        <span class="nav-text">Control Panel</span>
+                    </li>
+                    <li class="nav-item" data-section="audit">
+                        <span class="nav-icon">📋</span>
+                        <span class="nav-text">Audit Trail</span>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Main Content Area -->
+            <main class="main-content">
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="content-section active">
+                    <div class="section-header">
+                        <h2>System Overview</h2>
+                        <button id="runOptimization" class="btn btn-primary">🚀 Run Optimization</button>
+                    </div>
+                    
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-value" id="punctuality">--.-</div>
+                            <div class="metric-label">Punctuality %</div>
+                            <div class="metric-change positive" id="punctualityChange">+2.1%</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" id="throughput">--</div>
+                            <div class="metric-label">Throughput</div>
+                            <div class="metric-change neutral" id="throughputChange">--</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" id="utilization">--.-</div>
+                            <div class="metric-label">Utilization %</div>
+                            <div class="metric-change positive" id="utilizationChange">+1.5%</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" id="conflicts">--</div>
+                            <div class="metric-label">Active Conflicts</div>
+                            <div class="metric-change negative" id="conflictsChange">-1</div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="dashboard-card">
+                            <h3>Current Train Status</h3>
+                            <div class="train-status-list" id="trainStatusList">
+                                <!-- Train status items will be populated by JavaScript -->
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card">
+                            <h3>Active Disruptions</h3>
+                            <div class="disruption-list" id="disruptionList">
+                                <!-- Disruption items will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Schedule View Section -->
+                <section id="schedule" class="content-section">
+                    <div class="section-header">
+                        <h2>Train Schedule Timeline</h2>
+                        <div class="schedule-controls">
+                            <select id="scheduleFilter">
+                                <option value="all">All Trains</option>
+                                <option value="Express">Express Only</option>
+                                <option value="Local">Local Only</option>
+                                <option value="Freight">Freight Only</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-container">
+                        <div class="timeline-header">
+                            <div class="time-labels" id="timeLabels"></div>
+                        </div>
+                        <div class="timeline-content" id="scheduleTimeline">
+                            <!-- Schedule timeline will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- What-If Analysis Section -->
+                <section id="whatif" class="content-section">
+                    <div class="section-header">
+                        <h2>What-If Scenario Analysis</h2>
+                    </div>
+                    
+                    <div class="whatif-grid">
+                        <div class="scenario-controls">
+                            <h3>Create Scenario</h3>
+                            <form id="scenarioForm">
+                                <div class="form-group">
+                                    <label>Disruption Type:</label>
+                                    <select id="disruptionType">
+                                        <option value="Signal Failure">Signal Failure</option>
+                                        <option value="Track Maintenance">Track Maintenance</option>
+                                        <option value="Weather">Weather</option>
+                                        <option value="Equipment Failure">Equipment Failure</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Location:</label>
+                                    <select id="disruptionLocation">
+                                        <option value="A-B">Track A-B</option>
+                                        <option value="B-C">Track B-C</option>
+                                        <option value="C-D">Track C-D</option>
+                                        <option value="A-C">Track A-C</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Impact Level:</label>
+                                    <select id="impactLevel">
+                                        <option value="Low">Low</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="High">High</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Duration (minutes):</label>
+                                    <input type="number" id="duration" min="5" max="120" value="30">
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">🔬 Run Simulation</button>
+                            </form>
+                        </div>
+                        
+                        <div class="scenario-results">
+                            <h3>Simulation Results</h3>
+                            <div id="simulationResults" class="simulation-results">
+                                <p class="no-results">Run a simulation to see results here.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- KPIs Section -->
+                <section id="kpis" class="content-section">
+                    <div class="section-header">
+                        <h2>Performance KPIs & Analytics</h2>
+                    </div>
+                    
+                    <div class="kpi-grid">
+                        <div class="kpi-chart-container">
+                            <h3>Punctuality Trend</h3>
+                            <canvas id="punctualityChart"></canvas>
+                        </div>
+                        
+                        <div class="kpi-chart-container">
+                            <h3>Throughput Analysis</h3>
+                            <canvas id="throughputChart"></canvas>
+                        </div>
+                        
+                        <div class="kpi-chart-container">
+                            <h3>Train Type Distribution</h3>
+                            <canvas id="trainTypeChart"></canvas>
+                        </div>
+                        
+                        <div class="kpi-chart-container">
+                            <h3>Network Utilization</h3>
+                            <canvas id="utilizationChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Control Panel Section -->
+                <section id="control" class="content-section">
+                    <div class="section-header">
+                        <h2>Manual Control Panel</h2>
+                    </div>
+                    
+                    <div class="control-grid">
+                        <div class="control-section">
+                            <h3>Train Priority Adjustment</h3>
+                            <div id="trainPriorityControls">
+                                <!-- Train priority controls will be populated by JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <div class="control-section">
+                            <h3>Emergency Controls</h3>
+                            <div class="emergency-controls">
+                                <button class="btn btn-danger" id="emergencyStop">🛑 Emergency Stop All</button>
+                                <button class="btn btn-warning" id="holdAllTrains">⏸️ Hold All Trains</button>
+                                <button class="btn btn-success" id="resumeOperations">▶️ Resume Operations</button>
+                            </div>
+                        </div>
+                        
+                        <div class="control-section">
+                            <h3>Manual Override</h3>
+                            <form id="overrideForm">
+                                <div class="form-group">
+                                    <label>Train ID:</label>
+                                    <select id="overrideTrainId">
+                                        <!-- Train options will be populated -->
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Action:</label>
+                                    <select id="overrideAction">
+                                        <option value="delay">Add Delay</option>
+                                        <option value="reroute">Reroute</option>
+                                        <option value="priority">Change Priority</option>
+                                        <option value="platform">Change Platform</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Reason:</label>
+                                    <textarea id="overrideReason" placeholder="Reason for manual override..."></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Apply Override</button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Audit Trail Section -->
+                <section id="audit" class="content-section">
+                    <div class="section-header">
+                        <h2>Audit Trail</h2>
+                        <div class="audit-controls">
+                            <button class="btn btn-secondary" id="exportAudit">📄 Export Log</button>
+                            <button class="btn btn-secondary" id="refreshAudit">🔄 Refresh</button>
+                        </div>
+                    </div>
+                    
+                    <div class="audit-container">
+                        <table class="audit-table">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Action</th>
+                                    <th>User</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody id="auditTableBody">
+                                <!-- Audit entries will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Processing optimization...</p>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="notificationToast" class="notification-toast">
+        <div class="toast-content">
+            <span class="toast-icon">ℹ️</span>
+            <span class="toast-message">Notification message</span>
+        </div>
+        <button class="toast-close">×</button>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
